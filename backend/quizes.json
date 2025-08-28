@@ -1,0 +1,137 @@
+[
+  {
+    "id": "react",
+    "title": "React Викторина",
+    "description": "Тест из 5 вопросов для проверки знаний по React-разработке",
+    "questions": [
+      {
+        "description": "Что такое React?",
+        "options": [
+          { "description": "Библиотека для построения пользовательских интерфейсов" },
+          { "description": "Фреймворк для серверного рендеринга" },
+          { "description": "Язык программирования" },
+          { "description": "СУБД для веб-приложений" }
+        ],
+        "mode": "single",
+        "score": 1,
+        "answer": [0]
+      },
+      {
+        "description": "Какой из перечисленных хуков используется для управления состоянием в функциональных компонентах?",
+        "options": [
+          { "description": "useEffect" },
+          { "description": "useState" },
+          { "description": "useMemo" },
+          { "description": "useRef" }
+        ],
+        "mode": "single",
+        "score": 1,
+        "answer": [1]
+      },
+      {
+        "description": "Какие утверждения о хуке useEffect верны?",
+        "options": [
+          { "description": "Он используется для побочных эффектов" },
+          { "description": "Можно передать массив зависимостей" },
+          { "description": "Вызывается синхронно до рендера" },
+          { "description": "Может возвращать функцию очистки" }
+        ],
+        "mode": "multiple",
+        "score": 2,
+        "answer": [0, 1, 3]
+      },
+      {
+        "description": "Что произойдет, если в массив зависимостей useEffect не передать аргументы?",
+        "options": [
+          { "description": "Эффект выполнится только один раз" },
+          { "description": "Эффект не будет выполняться вовсе" },
+          { "description": "Эффект будет выполняться на каждый рендер" },
+          { "description": "Произойдет ошибка выполнения" }
+        ],
+        "mode": "single",
+        "score": 1,
+        "answer": [2]
+      },
+      {
+        "description": "Какие способы оптимизации производительности в React существуют?",
+        "options": [
+          { "description": "React.memo" },
+          { "description": "useCallback" },
+          { "description": "useReducer" },
+          { "description": "useMemo" }
+        ],
+        "mode": "multiple",
+        "score": 2,
+        "answer": [0, 1, 3]
+      }
+    ]
+  },
+
+  {
+    "id": "mongo",
+    "title": "MongoDB Викторина",
+    "description": "Тест из 5 вопросов для проверки знаний по MongoDB",
+    "questions": [
+      {
+        "description": "Что такое MongoDB?",
+        "options": [
+          { "description": "Реляционная база данных" },
+          { "description": "Документо-ориентированная база данных NoSQL" },
+          { "description": "Фреймворк для веб-разработки" },
+          { "description": "Язык программирования" }
+        ],
+        "mode": "single",
+        "score": 1,
+        "answer": [1]
+      },
+      {
+        "description": "В каком формате MongoDB хранит данные?",
+        "options": [
+          { "description": "XML" },
+          { "description": "CSV" },
+          { "description": "BSON" },
+          { "description": "YAML" }
+        ],
+        "mode": "single",
+        "score": 1,
+        "answer": [2]
+      },
+      {
+        "description": "Какие утверждения о коллекциях в MongoDB верны?",
+        "options": [
+          { "description": "Коллекция аналогична таблице в SQL" },
+          { "description": "Коллекции могут содержать документы разной структуры" },
+          { "description": "Каждая коллекция должна иметь схему" },
+          { "description": "В коллекции хранятся документы" }
+        ],
+        "mode": "multiple",
+        "score": 2,
+        "answer": [0, 1, 3]
+      },
+      {
+        "description": "Как называется встроенный идентификатор, который автоматически создаётся в каждом документе MongoDB?",
+        "options": [
+          { "description": "_id" },
+          { "description": "docId" },
+          { "description": "uuid" },
+          { "description": "mongoId" }
+        ],
+        "mode": "single",
+        "score": 1,
+        "answer": [0]
+      },
+      {
+        "description": "Какие типы индексов поддерживает MongoDB?",
+        "options": [
+          { "description": "Обычный (single field)" },
+          { "description": "Составной (compound)" },
+          { "description": "Полнотекстовый (text)" },
+          { "description": "Геопространственный (geospatial)" }
+        ],
+        "mode": "multiple",
+        "score": 2,
+        "answer": [0, 1, 2, 3]
+      }
+    ]
+  }
+]

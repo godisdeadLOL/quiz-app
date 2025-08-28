@@ -1,0 +1,1 @@
+type QuestionAnswer = list[int]
