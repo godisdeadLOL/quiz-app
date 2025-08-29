@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.routing import APIRoute
+from fastapi.middleware.cors import CORSMiddleware
 
 from routers.session import router as session_router
 from routers.quiz import router as quiz_router
@@ -14,6 +15,14 @@ def id_generator(route: APIRoute):
 
 
 app = FastAPI(generate_unique_id_function=id_generator)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 app.include_router(session_router, prefix="/sessions", tags=["Session"])
 app.include_router(quiz_router, prefix="/quizes", tags=["Quiz"])

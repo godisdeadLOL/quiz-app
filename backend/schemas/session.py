@@ -21,7 +21,7 @@ class QuizFeedback(BaseModel):
     score_max: int
 
 
-class SessionModel(BaseModel):
+class QuizSessionModel(BaseModel):
     id: str
     key: str
     quiz_id: str
@@ -32,20 +32,20 @@ class SessionModel(BaseModel):
     feedback: Optional[QuizFeedback]
 
 
-class SessionPreview(BaseModel):
+class QuizSessionPreview(BaseModel):
     id: str
     quiz_id: str
     status: Literal["in-progress", "finished"]
 
 
-class SessionDetailed(SessionPreview):
+class QuizSessionDetailed(QuizSessionPreview):
     answers: list[QuestionAnswer]
     feedback: Optional[QuizFeedback]
 
 
-class SessionSecure(SessionDetailed):
+class QuizSessionSecure(QuizSessionDetailed):
     key: str
 
 
-class SessionGetManyParams(BaseModel):
+class QuizSessionGetManyParams(BaseModel):
     ids: list[str]

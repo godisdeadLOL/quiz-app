@@ -3,7 +3,7 @@ from pydantic import TypeAdapter
 from pymongo import ReturnDocument
 import crud
 from db import DatabaseContext
-from schemas.session import SessionModel
+from schemas.session import QuizSessionModel
 from schemas.shared import QuestionAnswer
 
 import utils.session as session_utils
@@ -34,11 +34,11 @@ async def create(db_context: DatabaseContext, quiz_id: str):
 
 
 async def get_by_id(db_context: DatabaseContext, session_id: str):
-    return await crud.get_by_id(db_context, "sessions", SessionModel, session_id)
+    return await crud.get_by_id(db_context, "sessions", QuizSessionModel, session_id)
 
 
 async def get_many_by_ids(db_context: DatabaseContext, session_ids: list[str]):
-    return await crud.get_many_by_ids(db_context, "sessions", SessionModel, session_ids)
+    return await crud.get_many_by_ids(db_context, "sessions", QuizSessionModel, session_ids)
 
 
 async def validate_answer(db_context: DatabaseContext, session_id: str, answer_index: int, answer: QuestionAnswer):
@@ -61,7 +61,7 @@ async def update_answer(db_context: DatabaseContext, session_id: str, answer_ind
         session=session,
         return_document=ReturnDocument.AFTER,
     )
-    return SessionModel.model_validate(quiz_session_raw)
+    return QuizSessionModel.model_validate(quiz_session_raw)
 
 
 async def finish(db_context: DatabaseContext, session_id: str):
@@ -82,4 +82,4 @@ async def finish(db_context: DatabaseContext, session_id: str):
         session=session,
         return_document=ReturnDocument.AFTER,
     )
-    return SessionModel.model_validate(quiz_session_raw)
+    return QuizSessionModel.model_validate(quiz_session_raw)

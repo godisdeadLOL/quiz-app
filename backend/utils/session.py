@@ -1,6 +1,6 @@
 import nanoid
 from schemas.quiz import QuizModel
-from schemas.session import QuestionFeedback, QuizFeedback, SessionModel
+from schemas.session import QuestionFeedback, QuizFeedback, QuizSessionModel
 from schemas.shared import QuestionAnswer
 
 
@@ -10,7 +10,7 @@ def generate_session(quiz: QuizModel):
 
     answers = [[]] * len(quiz.questions)
 
-    quiz_session = SessionModel(
+    quiz_session = QuizSessionModel(
         quiz_id=quiz.id,
         id=sessionId,
         key=sessionKey,
@@ -22,7 +22,7 @@ def generate_session(quiz: QuizModel):
     return quiz_session
 
 
-def calculate_feedback(session: SessionModel, quiz: QuizModel):
+def calculate_feedback(session: QuizSessionModel, quiz: QuizModel):
     quiz_feedback = QuizFeedback(questions=[], score=0, score_max=0)
 
     for i in range(len(quiz.questions)):
@@ -57,7 +57,7 @@ def calculate_feedback(session: SessionModel, quiz: QuizModel):
     return quiz_feedback
 
 
-async def validate_answer(session: SessionModel, quiz: QuizModel, answer_index: int, answer: QuestionAnswer):
+async def validate_answer(session: QuizSessionModel, quiz: QuizModel, answer_index: int, answer: QuestionAnswer):
     question = quiz.questions[answer_index]
 
     if question.mode == "single" and len(answer) > 1:

@@ -26,6 +26,7 @@ class QuizModel(BaseModel):
 class QuestionPublic(BaseModel):
     description: str
     options: list[QuestionOption]
+    mode: Literal["single", "multiple"]
 
 
 class QuizPreview(BaseModel):
