@@ -9,7 +9,7 @@ class QuestionFeedback(BaseModel):
     right_answer: QuestionAnswer
 
     score: int
-    max_score: int
+    score_max: int
 
     comment: str
 
@@ -18,7 +18,7 @@ class QuizFeedback(BaseModel):
     questions: list[QuestionFeedback]
 
     score: int
-    max_score: int
+    score_max: int
 
 
 class SessionModel(BaseModel):

@@ -1,3 +1,4 @@
+from typing import Literal
 from pydantic import BaseModel
 
 from schemas.shared import QuestionAnswer
@@ -11,6 +12,8 @@ class QuestionModel(BaseModel):
     description: str
     options: list[QuestionOption]
     answer: QuestionAnswer
+    score: int
+    mode: Literal["single", "multiple"]
 
 
 class QuizModel(BaseModel):
@@ -19,9 +22,11 @@ class QuizModel(BaseModel):
     description: str
     questions: list[QuestionModel]
 
+
 class QuestionPublic(BaseModel):
     description: str
     options: list[QuestionOption]
+
 
 class QuizPreview(BaseModel):
     id: str
