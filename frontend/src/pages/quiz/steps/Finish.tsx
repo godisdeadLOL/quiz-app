@@ -4,7 +4,7 @@ import { useParams } from "react-router";
 import { useSessionQuery } from "../queries";
 import { useFinishSessionMutation } from "../mutations";
 import { useNavigate } from "react-router";
-import { AnswerGrid } from "@/components/AnswerGrid";
+import { SessionAnswersGrid } from "@/components/SessionAnswersGrid";
 
 export default function Finish() {
 	const navigate = useNavigate();
@@ -25,7 +25,7 @@ export default function Finish() {
 
 	return (
 		<>
-			<AnswerGrid actions={{ onSelect: (index) => navigate(`../${index}`, { relative: "path" }) }} session={session} />
+			<SessionAnswersGrid actions={{ onSelect: (index) => navigate(`../${index+1}`, { relative: "path" }) }} session={session} />
 
 			<button
 				onClick={handleComplete}

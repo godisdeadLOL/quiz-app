@@ -17,7 +17,7 @@ export default function Intro() {
 		const session = await mutateAsync();
 		addSession(session.id, session.key);
 
-		navigate(`${session.id}/0`);
+		navigate(`${session.id}/1`);
 	};
 
 	const { sessions, addSession, removeSession } = useSessions(quizId);
@@ -60,7 +60,7 @@ export default function Intro() {
 	);
 
 	function handleSessionSelect(sessionId: string) {
-		navigate(`${sessionId}/0`);
+		navigate(`${sessionId}/1`);
 	}
 
 	function handleSessionDelete(sessionId: string) {

@@ -1,9 +1,10 @@
 import { QuestionFeedbackDisplay } from "@/components/QuestionFeedbackDisplay";
 import { CircularProgress } from "@/ui/CircularProgress";
 import { useQuizDetailedQuery, useSessionQuery } from "@/pages/quiz/queries";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { useState, useEffect } from "react";
 import { useSessionKey } from "@/hooks/useSessionKey";
+import { FeedbackQuestionsGrid } from "@/components/FeedbackQuestionsGrid";
 
 export default function Result() {
 	// параметры
@@ -32,12 +33,18 @@ export default function Result() {
 				</CircularProgress>
 			</div>
 
+			<FeedbackQuestionsGrid feedback={quizFeedback} actions={{ onSelect: handleGoToQuestion }} />
+
 			<div className="flex flex-col gap-6 mt-8">
 				{quiz.questions.map((question, i) => {
 					const feedback = quizFeedback.questions[i];
-					return <QuestionFeedbackDisplay key={i} index={i} question={question} feedback={feedback} />;
+					return <QuestionFeedbackDisplay id={`question-${i + 1}`} key={i} index={i} question={question} feedback={feedback} />;
 				})}
 			</div>
 		</div>
 	);
+
+	function handleGoToQuestion(index: number) {
+		window.location.hash = `question-${index + 1}`;
+	}
 }

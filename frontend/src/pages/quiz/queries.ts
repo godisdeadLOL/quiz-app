@@ -41,7 +41,7 @@ export function useQuizDetailedQuery(quizId: string, sessionKey: string) {
 export function useSessionQuery(sessionId: string, sessionKey: string) {
 	return useSuspenseQuery(
 		queryOptions({
-			queryKey: ["session"],
+			queryKey: ["session", sessionId],
 			queryFn: async () => {
 				const result = await Session.getSession({
 					path: {

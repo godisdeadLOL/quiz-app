@@ -54,7 +54,7 @@ export function useFinishSessionMutation(sessionId: string, sessionKey: string) 
 			return result.data!;
 		},
 		onSuccess: (session) => {
-			queryClient.setQueryData<QuizSessionDetailed>(["session"], () => session);
+			queryClient.setQueryData<QuizSessionDetailed>(["session", sessionId], () => session);
 		},
 	});
 }

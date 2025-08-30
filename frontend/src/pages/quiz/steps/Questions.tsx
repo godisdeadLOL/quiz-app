@@ -1,10 +1,10 @@
 import { QuestionDisplay } from "@/components/QuestionDisplay";
 import type { QuestionAnswer } from "@/api/types";
 import { useEffect, useState } from "react";
-import { LuArrowLeft, LuArrowRight, LuCheck } from "react-icons/lu";
+import { LuArrowLeft, LuArrowRight } from "react-icons/lu";
 import { useNavigate, useParams } from "react-router";
 import { useQuizDetailedQuery, useSessionQuery } from "@/pages/quiz/queries";
-import { useFinishSessionMutation, useSetSessionAnswerMutation } from "@/pages/quiz/mutations";
+import { useSetSessionAnswerMutation } from "@/pages/quiz/mutations";
 import { useSessionKey } from "@/hooks/useSessionKey";
 
 export default function Questions() {
@@ -14,7 +14,7 @@ export default function Questions() {
 	const params = useParams();
 	const quizId = params["quizId"]!;
 	const sessionId = params["sessionId"]!;
-	const questionIndex = Number(params["questionIndex"]);
+	const questionIndex = Number(params["questionIndex"])-1;
 
 	const sessionKey = useSessionKey(quizId, sessionId);
 
@@ -40,7 +40,7 @@ export default function Questions() {
 
 				<div className="text-text-accent">Вопрос {questionIndex + 1}</div>
 
-				<button disabled={questionIndex === quiz.questions.length - 1} onClick={handleNext} className="button p-2 rounded-full">
+				<button onClick={handleNext} className="button p-2 rounded-full">
 					<LuArrowRight />
 				</button>
 			</div>
@@ -58,17 +58,16 @@ export default function Questions() {
 	);
 
 	function handleNext() {
-		navigate(`../${questionIndex + 1}`, { relative: "path" });
+		if (questionIndex === quiz.questions.length - 1) navigate("../finish", { relative: "path" });
+		else navigate(`../${questionIndex + 2}`, { relative: "path" });
 	}
 
 	function handlePrev() {
-		navigate(`../${questionIndex - 1}`, { relative: "path" });
+		navigate(`../${questionIndex}`, { relative: "path" });
 	}
 
 	async function handleSubmitAnswer() {
 		await setAnswerMutation.mutateAsync({ index: questionIndex, answer: answer });
-
-		if (questionIndex === quiz.questions.length - 1) navigate("../finish", { relative: "path" });
-		else handleNext();
+		handleNext();
 	}
 }
