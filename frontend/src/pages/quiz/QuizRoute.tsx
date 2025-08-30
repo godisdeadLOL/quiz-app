@@ -21,7 +21,7 @@ export function QuizRoute() {
 
 			<Route path=":sessionId">
 				<Route
-					path="result"
+					index
 					element={
 						<Suspense fallback={"загрузка результатов..."}>
 							<Result />

@@ -14,7 +14,6 @@ def generate_session(quiz: QuizModel):
         quiz_id=quiz.id,
         id=sessionId,
         key=sessionKey,
-        status="in-progress",
         answers=answers,
         feedback=None,
         duration=quiz.duration,
@@ -53,7 +52,6 @@ def calculate_feedback(session: QuizSessionModel, quiz: QuizModel):
         quiz_feedback.score_max += question_feedback.score_max
 
     session.feedback = quiz_feedback
-    session.status = "finished"
 
     return quiz_feedback
 

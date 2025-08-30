@@ -66,41 +66,32 @@ async def update_answer(db_context: DatabaseContext, session_id: str, answer_ind
     return quiz_session
 
 
-async def finish(db_context: DatabaseContext, session_id: str):
-    await try_finish(db_context, [session_id], True)
+async def fill_feedback(db_context: DatabaseContext, session_id: str):
+    (db, session) = db_context
+    collection = db.get_collection("sessions")
 
     quiz_session = await get_by_id(db_context, session_id)
     assert quiz_session
 
-    return quiz_session
-
-
-# todo: оптимизировать
-async def try_finish(db_context: DatabaseContext, session_id: str, force: bool = False):
-    (db, session) = db_context
-    collection = db.get_collection("sessions")
-
-    quiz_session = await get_by_id(db_context, session_id)
-    if not quiz_session:
-        return
-
-    # Условия завершения сессии
-    is_expired = quiz_session.duration and time.time() - quiz_session.created_at > quiz_session.duration
-    if not is_expired and not force:
-        return
+    # if quiz_session.feedback:
+    #     return
 
     quiz = await quiz_service.get_by_id(db_context, quiz_session.quiz_id)
-    if not quiz:
-        return
+    assert quiz
 
     feedback = session_utils.calculate_feedback(quiz_session, quiz)
-    await collection.update_one(
-        {"id": quiz_session.id},
-        {"$set": {"status": "finished", "feedback": feedback.model_dump()}},
+    quiz_session_raw = await collection.find_one_and_update(
+        {"id": session_id},
+        {"$set": {"feedback": feedback.model_dump()}},
         session=session,
+        return_document=ReturnDocument.AFTER,
     )
+
+    return QuizSessionModel.model_validate(quiz_session_raw)
 
 
 async def check_expired(db_context: DatabaseContext, session_id: str):
-    (db, session) = db_context
-    collection = db.get_collection("sessions")
+    quiz_session = await get_by_id(db_context, session_id)
+    assert quiz_session
+
+    return quiz_session.is_expired

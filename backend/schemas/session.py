@@ -1,6 +1,6 @@
 import time
 from typing import Literal, Optional
-from pydantic import BaseModel, Field, field_validator, model_validator
+from pydantic import BaseModel, Field, computed_field, field_validator, model_validator
 
 from schemas.shared import QuestionAnswer
 
@@ -33,28 +33,26 @@ class QuizSessionModel(BaseModel):
     answers: list[QuestionAnswer]
 
     created_at: float = Field(default_factory=lambda: time.time())
-    status: SessionStatus
     feedback: Optional[QuizFeedback]
 
     duration: int | None
+
+    @computed_field
+    @property
+    def is_expired(self) -> bool:
+        now = time.time()
+        
+        if not self.duration : return False
+        return now - self.created_at > self.duration
 
 
 class QuizSessionPreview(BaseModel):
     id: str
     quiz_id: str
-    status: SessionStatus
 
     created_at: float
     duration: int | None
-
-    # @model_validator(mode="after")
-    # @classmethod
-    # def validate_status(cls, value):
-    #     now = time.time()
-    #     if value.duration and now - value.created_at > value.duration:
-    #         value.status = "finished"
-
-    #     return value
+    is_expired: bool
 
 
 class QuizSessionDetailed(QuizSessionPreview):

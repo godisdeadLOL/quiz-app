@@ -1,20 +1,24 @@
 import { QuestionDisplay } from "@/components/QuestionDisplay";
 import type { QuestionAnswer } from "@/api/types";
 import { useEffect, useState } from "react";
-import { LuArrowLeft, LuArrowRight } from "react-icons/lu";
+import { LuArrowLeft, LuArrowRight, LuClock } from "react-icons/lu";
 import { useNavigate, useParams } from "react-router";
 import { useQuizDetailedQuery, useSessionQuery } from "@/pages/quiz/queries";
 import { useSetSessionAnswerMutation } from "@/pages/quiz/mutations";
 import { useSessionKey } from "@/hooks/useSessionKey";
+import { IconButton } from "@/ui/IconButton";
+import { Timer } from "@/components/Timer";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function Questions() {
 	const navigate = useNavigate();
+	const client = useQueryClient();
 
 	// параметры
 	const params = useParams();
 	const quizId = params["quizId"]!;
 	const sessionId = params["sessionId"]!;
-	const questionIndex = Number(params["questionIndex"])-1;
+	const questionIndex = Number(params["questionIndex"]) - 1;
 
 	const sessionKey = useSessionKey(quizId, sessionId);
 
@@ -33,16 +37,27 @@ export default function Questions() {
 
 	return (
 		<>
-			<div className="flex justify-between mb-8">
-				<button disabled={questionIndex === 0} onClick={handlePrev} className="button p-2 rounded-full">
+			<div className="flex gap-8 items-center mb-8">
+				{/* Навигация по вопросам */}
+				<IconButton disabled={questionIndex === 0} onClick={handlePrev}>
 					<LuArrowLeft />
-				</button>
+				</IconButton>
 
-				<div className="text-text-accent">Вопрос {questionIndex + 1}</div>
+				<div className="text-text-accent">
+					{questionIndex + 1} / {quiz.questions.length}
+				</div>
 
-				<button onClick={handleNext} className="button p-2 rounded-full">
+				<IconButton onClick={handleNext}>
 					<LuArrowRight />
-				</button>
+				</IconButton>
+
+				{/* Таймер */}
+				{session.duration && (
+					<div className="ml-auto flex gap-2 items-center">
+						<LuClock />
+						<Timer onComplete={handleTimeout} startedAt={session.created_at} duration={session.duration} />
+					</div>
+				)}
 			</div>
 
 			<QuestionDisplay onChangeAnswer={setAnswer} question={quiz.questions[questionIndex]} answer={answer} />
@@ -66,8 +81,12 @@ export default function Questions() {
 		navigate(`../${questionIndex}`, { relative: "path" });
 	}
 
-	async function handleSubmitAnswer() {
-		await setAnswerMutation.mutateAsync({ index: questionIndex, answer: answer });
-		handleNext();
+	function handleTimeout() {
+		client.removeQueries({ queryKey: ["session", sessionId] });
+		navigate(`../`, { relative: "path" });
+	}
+
+	function handleSubmitAnswer() {
+		setAnswerMutation.mutateAsync({ index: questionIndex, answer: answer }).then(() => handleNext());
 	}
 }

@@ -60,7 +60,10 @@ export default function Intro() {
 	);
 
 	function handleSessionSelect(sessionId: string) {
-		navigate(`${sessionId}/1`);
+		const session = sessionsPreview.find((session) => session.id === sessionId)!;
+
+		if (session.is_expired) navigate(`${sessionId}`);
+		else navigate(`${sessionId}/1`);
 	}
 
 	function handleSessionDelete(sessionId: string) {

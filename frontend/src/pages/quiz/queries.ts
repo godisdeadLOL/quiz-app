@@ -30,8 +30,6 @@ export function useQuizDetailedQuery(quizId: string, sessionKey: string) {
 			queryKey: ["quizDetailed", quizId],
 			queryFn: async () => {
 				const result = await Quiz.getQuizDetailed({ path: { quiz_id: quizId }, headers: { "x-session-key": sessionKey } });
-				console.log(sessionKey);
-
 				return result.data!;
 			},
 		})

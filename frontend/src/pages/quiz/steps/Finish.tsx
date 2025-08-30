@@ -25,7 +25,7 @@ export default function Finish() {
 
 	return (
 		<>
-			<SessionAnswersGrid actions={{ onSelect: (index) => navigate(`../${index+1}`, { relative: "path" }) }} session={session} />
+			<SessionAnswersGrid actions={{ onSelect: (index) => navigate(`${index + 1}`) }} session={session} />
 
 			<button
 				onClick={handleComplete}
@@ -39,6 +39,6 @@ export default function Finish() {
 
 	async function handleComplete() {
 		await finishSessionMutation.mutateAsync();
-		navigate("../result", { relative: "path" });
+		navigate("../", { relative: "path" });
 	}
 }

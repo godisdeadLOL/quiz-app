@@ -131,9 +131,17 @@ export type QuizSessionDetailed = {
      */
     quiz_id: string;
     /**
-     * Status
+     * Created At
      */
-    status: 'in-progress' | 'finished';
+    created_at: number;
+    /**
+     * Duration
+     */
+    duration: number | null;
+    /**
+     * Is Expired
+     */
+    is_expired: boolean;
     /**
      * Answers
      */
@@ -154,9 +162,17 @@ export type QuizSessionPreview = {
      */
     quiz_id: string;
     /**
-     * Status
+     * Created At
      */
-    status: 'in-progress' | 'finished';
+    created_at: number;
+    /**
+     * Duration
+     */
+    duration: number | null;
+    /**
+     * Is Expired
+     */
+    is_expired: boolean;
 };
 
 /**
@@ -172,9 +188,17 @@ export type QuizSessionSecure = {
      */
     quiz_id: string;
     /**
-     * Status
+     * Created At
      */
-    status: 'in-progress' | 'finished';
+    created_at: number;
+    /**
+     * Duration
+     */
+    duration: number | null;
+    /**
+     * Is Expired
+     */
+    is_expired: boolean;
     /**
      * Answers
      */
