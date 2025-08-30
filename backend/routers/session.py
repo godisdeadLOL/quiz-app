@@ -16,18 +16,17 @@ async def get_session(
     session_key: str = Depends(session_key_scheme),
     db_context: DatabaseContext = Depends(get_db_context),
 ):
+    if not await session_service.check_access(db_context, session_id, session_key):
+        raise HTTPException(401)
+
     quiz_session = await session_service.get_by_id(db_context, session_id)
 
     if not quiz_session:
         raise HTTPException(404)
 
-    if quiz_session.key != session_key:
-        raise HTTPException(401)
-
     return quiz_session
 
 
-# todo: а что с этим делать?
 @router.get("", response_model=list[QuizSessionPreview])
 async def get_many_sessions(
     filters: Annotated[QuizSessionGetManyParams, Query()],
@@ -39,6 +38,8 @@ async def get_many_sessions(
 
 @router.post("/", response_model=QuizSessionSecure)
 async def create_session(quiz_id: str = Query(), db_context: DatabaseContext = Depends(get_db_context)):
+    # todo: quiz_service.exists
+
     quiz_session = await session_service.create(db_context, quiz_id)
     return quiz_session
 
@@ -51,19 +52,15 @@ async def update_session_answer(
     session_key: str = Depends(session_key_scheme),
     db_context: DatabaseContext = Depends(get_db_context),
 ):
-    answer = list(set(answer)) # убрать дубликаты
+    answer = list(set(answer))  # убрать дубликаты
 
-    isAccessible = await session_service.check_access(db_context, session_id, session_key)
-    if not isAccessible:
+    if not await session_service.check_access(db_context, session_id, session_key):
         raise HTTPException(401)
 
-    isValidated = await session_service.validate_answer(db_context, session_id, answer_index, answer)
-    if not isValidated:
+    if not await session_service.validate_answer(db_context, session_id, answer_index, answer):
         raise HTTPException(422)
 
-    session = await session_service.update_answer(db_context, session_id, answer_index, answer)
-
-    return session
+    return await session_service.update_answer(db_context, session_id, answer_index, answer)
 
 
 @router.post("/{session_id}/finish", response_model=QuizSessionDetailed)
@@ -72,8 +69,7 @@ async def finish_session(
     session_key: str = Depends(session_key_scheme),
     db_context: DatabaseContext = Depends(get_db_context),
 ):
-    isAccessible = await session_service.check_access(db_context, session_id, session_key)
-    if not isAccessible:
+    if await session_service.check_access(db_context, session_id, session_key):
         raise HTTPException(401)
 
     session = await session_service.finish(db_context, session_id)

@@ -21,6 +21,7 @@ class QuizModel(BaseModel):
     title: str
     description: str
     questions: list[QuestionModel]
+    duration: int | None
 
 
 class QuestionPublic(BaseModel):

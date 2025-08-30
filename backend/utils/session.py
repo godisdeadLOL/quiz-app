@@ -17,6 +17,7 @@ def generate_session(quiz: QuizModel):
         status="in-progress",
         answers=answers,
         feedback=None,
+        duration=quiz.duration,
     )
 
     return quiz_session

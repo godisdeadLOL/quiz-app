@@ -3,6 +3,7 @@
     "id": "react",
     "title": "React Викторина",
     "description": "Тест из 5 вопросов для проверки знаний по React-разработке",
+    "duration": 30,
     "questions": [
       {
         "description": "Что такое React?",
@@ -71,6 +72,7 @@
     "id": "mongo",
     "title": "MongoDB Викторина",
     "description": "Тест из 5 вопросов для проверки знаний по MongoDB",
+    "duration": null,
     "questions": [
       {
         "description": "Что такое MongoDB?",

@@ -1,5 +1,6 @@
+import time
 from typing import Literal, Optional
-from pydantic import BaseModel
+from pydantic import BaseModel, Field, field_validator, model_validator
 
 from schemas.shared import QuestionAnswer
 
@@ -21,6 +22,9 @@ class QuizFeedback(BaseModel):
     score_max: int
 
 
+type SessionStatus = Literal["in-progress", "finished"]
+
+
 class QuizSessionModel(BaseModel):
     id: str
     key: str
@@ -28,14 +32,29 @@ class QuizSessionModel(BaseModel):
 
     answers: list[QuestionAnswer]
 
-    status: Literal["in-progress", "finished"]
+    created_at: float = Field(default_factory=lambda: time.time())
+    status: SessionStatus
     feedback: Optional[QuizFeedback]
+
+    duration: int | None
 
 
 class QuizSessionPreview(BaseModel):
     id: str
     quiz_id: str
-    status: Literal["in-progress", "finished"]
+    status: SessionStatus
+
+    created_at: float
+    duration: int | None
+
+    # @model_validator(mode="after")
+    # @classmethod
+    # def validate_status(cls, value):
+    #     now = time.time()
+    #     if value.duration and now - value.created_at > value.duration:
+    #         value.status = "finished"
+
+    #     return value
 
 
 class QuizSessionDetailed(QuizSessionPreview):
