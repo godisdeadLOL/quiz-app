@@ -1,7 +1,7 @@
 import { QuestionDisplay } from "@/components/QuestionDisplay";
 import type { QuestionAnswer } from "@/api/types";
 import { useEffect, useState } from "react";
-import { LuArrowLeft, LuArrowRight, LuClock } from "react-icons/lu";
+import { LuArrowLeft, LuArrowRight, LuClock, LuDrill, LuFlag } from "react-icons/lu";
 import { useNavigate, useParams } from "react-router";
 import { useQuizDetailedQuery, useSessionQuery } from "@/pages/quiz/queries";
 import { useSetSessionAnswerMutation } from "@/pages/quiz/mutations";

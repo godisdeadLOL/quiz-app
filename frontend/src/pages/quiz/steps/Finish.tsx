@@ -27,6 +27,8 @@ export default function Finish() {
 		<>
 			<SessionAnswersGrid actions={{ onSelect: (index) => navigate(`../${index + 1}`) }} session={session} />
 
+			<div className="mt-4 text-text-faded">Вы ответили не на все вопросы</div>
+
 			<button
 				onClick={handleComplete}
 				disabled={isPending}

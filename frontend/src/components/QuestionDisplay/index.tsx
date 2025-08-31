@@ -11,7 +11,7 @@ type QuestionDisplayProps = {
 export function QuestionDisplay({ answer, question, onChangeAnswer }: QuestionDisplayProps) {
 	return (
 		<div>
-			<p>{question.description}</p>
+			<p className="text-text-accent">{question.description}</p>
 
 			<div className="mt-4 select-none flex flex-col gap-2">
 				{question.options.map((_, i) => (
