@@ -1,13 +1,15 @@
 import { useSessionKey } from "@/hooks/useSessionKey";
 import { LuCheck } from "react-icons/lu";
 import { useParams } from "react-router";
-import { useSessionQuery } from "../../queries";
-import { useFinishSessionMutation } from "../../mutations";
+import { useSessionQuery } from "../../api/queries";
+import { useFinishSessionMutation } from "../../api/mutations";
 import { useNavigate } from "react-router";
 import { SessionAnswersGrid } from "@/components/SessionAnswersGrid";
+import { useQuestionsLayout } from "./context";
 
 export default function Finish() {
 	const navigate = useNavigate();
+	const { navigateResult } = useQuestionsLayout();
 
 	// параметры
 	const params = useParams();
@@ -41,7 +43,7 @@ export default function Finish() {
 	);
 
 	async function handleComplete() {
-		await finishSessionMutation.mutateAsync();
-		navigate("../", { relative: "path" });
+		await finishSessionMutation.mutateAsync().then(navigateResult)
+		// navigate("../", { relative: "path", replace: true });
 	}
 }

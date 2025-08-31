@@ -1,6 +1,6 @@
 import { QuestionFeedbackDisplay } from "@/components/QuestionFeedbackDisplay";
 import { CircularProgress } from "@/ui/CircularProgress";
-import { useQuizDetailedQuery, useSessionQuery } from "@/pages/quiz/queries";
+import { useQuizDetailedQuery, useSessionQuery } from "@/pages/quiz/api/queries";
 import { useNavigate, useParams } from "react-router";
 import { useState, useEffect } from "react";
 import { useSessionKey } from "@/hooks/useSessionKey";

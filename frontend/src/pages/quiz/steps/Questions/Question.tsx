@@ -3,8 +3,8 @@ import type { QuestionAnswer } from "@/api/types";
 import { useEffect, useState } from "react";
 import { LuArrowRight } from "react-icons/lu";
 import { useParams } from "react-router";
-import { useQuizDetailedQuery, useSessionQuery } from "@/pages/quiz/queries";
-import { useSetSessionAnswerMutation } from "@/pages/quiz/mutations";
+import { useQuizDetailedQuery, useSessionQuery } from "@/pages/quiz/api/queries";
+import { useSetSessionAnswerMutation } from "@/pages/quiz/api/mutations";
 import { useSessionKey } from "@/hooks/useSessionKey";
 import { useQuestionsLayout } from "./context";
 

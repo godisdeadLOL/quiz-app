@@ -143,6 +143,10 @@ export type QuizSessionDetailed = {
      */
     is_expired: boolean;
     /**
+     * Is Finished
+     */
+    is_finished: boolean;
+    /**
      * Answers
      */
     answers: Array<QuestionAnswer>;
@@ -173,6 +177,10 @@ export type QuizSessionPreview = {
      * Is Expired
      */
     is_expired: boolean;
+    /**
+     * Is Finished
+     */
+    is_finished: boolean;
 };
 
 /**
@@ -199,6 +207,10 @@ export type QuizSessionSecure = {
      * Is Expired
      */
     is_expired: boolean;
+    /**
+     * Is Finished
+     */
+    is_finished: boolean;
     /**
      * Answers
      */

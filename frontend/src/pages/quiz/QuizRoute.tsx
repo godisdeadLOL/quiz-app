@@ -1,11 +1,11 @@
 import { QuizLayout } from "./QuizLayout";
 import { Outlet, Route } from "react-router";
-import React from "react";
+import React, { Suspense } from "react";
 import { Boundary } from "@/components/Boundary";
 
 const Intro = React.lazy(() => import("./steps/Intro"));
 const QuestionsLayout = React.lazy(() => import("./steps/Questions/QuestionsLayout"))
-const Questions = React.lazy(() => import("./steps/Questions/Question"));
+const Question = React.lazy(() => import("./steps/Questions/Question"));
 const Finish = React.lazy(() => import("./steps/Questions/Finish"));
 const Result = React.lazy(() => import("./steps/Result"));
 
@@ -20,7 +20,7 @@ export function QuizRoute() {
 
 					<Route element={<QuestionsLayout/>}>
 						<Route path="finish" element={<Finish/>}/>
-						<Route path=":questionIndex" element={<Questions/>}/>
+						<Route path=":questionIndex" element={<Question/>}/>
 					</Route>
 				</Route>
 			</Route>

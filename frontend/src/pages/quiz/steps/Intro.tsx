@@ -1,7 +1,7 @@
 import { SessionDisplay } from "@/components/SessionDisplay";
 import { useSessions } from "@/hooks/useSessions";
-import { useCreateSessionMutation } from "@/pages/quiz/mutations";
-import { useQuizPreviewQuery, useSessionsPreviewQuery } from "@/pages/quiz/queries";
+import { useCreateSessionMutation } from "@/pages/quiz/api/mutations";
+import { useQuizPreviewQuery, useSessionsPreviewQuery } from "@/pages/quiz/api/queries";
 import { LuArrowRight } from "react-icons/lu";
 import { useNavigate, useParams } from "react-router";
 

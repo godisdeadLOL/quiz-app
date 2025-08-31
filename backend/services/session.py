@@ -1,6 +1,3 @@
-import time
-import nanoid
-from pydantic import TypeAdapter
 from pymongo import ReturnDocument
 import crud
 from db import DatabaseContext
@@ -90,8 +87,8 @@ async def fill_feedback(db_context: DatabaseContext, session_id: str):
     return QuizSessionModel.model_validate(quiz_session_raw)
 
 
-async def check_expired(db_context: DatabaseContext, session_id: str):
+async def check_finished(db_context: DatabaseContext, session_id: str):
     quiz_session = await get_by_id(db_context, session_id)
     assert quiz_session
 
-    return quiz_session.is_expired
+    return quiz_session.is_finished

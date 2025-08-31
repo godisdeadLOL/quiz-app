@@ -41,9 +41,15 @@ class QuizSessionModel(BaseModel):
     @property
     def is_expired(self) -> bool:
         now = time.time()
-        
-        if not self.duration : return False
+
+        if not self.duration:
+            return False
         return now - self.created_at > self.duration
+
+    @computed_field
+    @property
+    def is_finished(self) -> bool:
+        return self.is_expired or self.feedback != None
 
 
 class QuizSessionPreview(BaseModel):
@@ -52,7 +58,9 @@ class QuizSessionPreview(BaseModel):
 
     created_at: float
     duration: int | None
+    
     is_expired: bool
+    is_finished: bool
 
 
 class QuizSessionDetailed(QuizSessionPreview):

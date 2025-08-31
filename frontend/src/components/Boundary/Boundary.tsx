@@ -4,6 +4,7 @@ import { LoadingFallback } from "./LoadingFallback";
 import { ErrorFallback } from "./ErrorFallback";
 import { BoundaryContextProvider } from "./context";
 import { QueryErrorResetBoundary } from "@tanstack/react-query";
+import { useLocation } from "react-router";
 
 type BoundaryProps = {
 	errorFallback?: ReactNode;
@@ -11,6 +12,8 @@ type BoundaryProps = {
 } & PropsWithChildren;
 
 export function Boundary({ errorFallback = <ErrorFallback />, loadingFallback = <LoadingFallback />, children }: BoundaryProps) {
+	const locationKey = useLocation().key;
+
 	return (
 		<QueryErrorResetBoundary>
 			{({ reset }) => (
@@ -20,7 +23,7 @@ export function Boundary({ errorFallback = <ErrorFallback />, loadingFallback = 
 						<BoundaryContextProvider value={{ reset: resetErrorBoundary, error }}>{errorFallback}</BoundaryContextProvider>
 					)}
 				>
-					<Suspense fallback={loadingFallback}>{children}</Suspense>
+					<Suspense key={locationKey} fallback={loadingFallback}>{children}</Suspense>
 				</ErrorBoundary>
 			)}
 		</QueryErrorResetBoundary>

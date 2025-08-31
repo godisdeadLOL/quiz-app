@@ -1,16 +1,6 @@
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { Quiz, Session } from "@/api";
 
-export function useQuizesQuery() {
-	return useSuspenseQuery({
-		queryKey: ["quizes"],
-		queryFn: async () => {
-			const result = await Quiz.listQuizes();
-			return result.data!;
-		},
-	});
-}
-
 export function useQuizPreviewQuery(quizId: string) {
 	return useSuspenseQuery(
 		queryOptions({

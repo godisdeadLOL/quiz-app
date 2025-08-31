@@ -57,7 +57,7 @@ async def update_session_answer(
     if not await session_service.check_access(db_context, session_id, session_key):
         raise HTTPException(401)
 
-    if await session_service.check_expired(db_context, session_id):
+    if await session_service.check_finished(db_context, session_id):
         raise HTTPException(423)
 
     answer = list(set(answer))  # убрать дубликаты
@@ -76,7 +76,7 @@ async def finish_session(
     if not await session_service.check_access(db_context, session_id, session_key):
         raise HTTPException(401)
 
-    if await session_service.check_expired(db_context, session_id):
+    if await session_service.check_finished(db_context, session_id):
         raise HTTPException(423)
 
     session = await session_service.fill_feedback(db_context, session_id)

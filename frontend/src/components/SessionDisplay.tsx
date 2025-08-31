@@ -22,7 +22,7 @@ export function SessionDisplay({ session, actions }: SessionDisplayProps) {
 				<div className="flex gap-1 items-center">
 					<div>#{session.id}</div>
 					<LuDot className="text-text-faded" />
-					<div className="text-text-faded text-sm">{statusMessage[session.is_expired ? "finished" : "in-progress"]}</div>
+					<div className="text-text-faded text-sm">{statusMessage[session.is_finished ? "finished" : "in-progress"]}</div>
 				</div>
 
 				<div className="flex items-center gap-1 text-sm text-text-faded">
