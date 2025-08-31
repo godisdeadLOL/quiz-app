@@ -9,6 +9,7 @@ import { useSessionKey } from "@/hooks/useSessionKey";
 import { IconButton } from "@/ui/IconButton";
 import { Timer } from "@/components/Timer";
 import { useQueryClient } from "@tanstack/react-query";
+import { StatusBar } from "../ui/StatusBar";
 
 export default function Questions() {
 	const navigate = useNavigate();
@@ -37,6 +38,8 @@ export default function Questions() {
 
 	return (
 		<>
+			<StatusBar value={questionIndex / quiz.questions.length} />
+
 			<div className="flex gap-4 items-center mb-8">
 				{/* Навигация по вопросам */}
 				<IconButton disabled={questionIndex === 0} onClick={handlePrev}>

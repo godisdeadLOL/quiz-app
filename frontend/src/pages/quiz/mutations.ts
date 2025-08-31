@@ -24,7 +24,7 @@ export function useSetSessionAnswerMutation(sessionId: string, sessionKey: strin
 			const { index, answer } = params;
 
 			queryClient.setQueryData<QuizSessionDetailed>(
-				["session"],
+				["session", sessionId],
 				(session) => session && { ...session, answers: updateAtIndex(session.answers, index, answer) }
 			);
 		},

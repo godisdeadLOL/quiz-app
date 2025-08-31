@@ -73,7 +73,7 @@ async def finish_session(
     session_key: str = Depends(session_key_scheme),
     db_context: DatabaseContext = Depends(get_db_context),
 ):
-    if await session_service.check_access(db_context, session_id, session_key):
+    if not await session_service.check_access(db_context, session_id, session_key):
         raise HTTPException(401)
 
     if await session_service.check_expired(db_context, session_id):
