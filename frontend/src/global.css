@@ -11,11 +11,13 @@
 	--color-text-accent: var(--color-white);
 	--color-text-faded: var(--color-neutral-500);
 
+	--font-base: "Inter";
+
 	--color-border: var(--color-neutral-500);
 }
 
 html {
-	@apply scroll-smooth;
+	@apply scroll-smooth font-base;
 }
 
 body {

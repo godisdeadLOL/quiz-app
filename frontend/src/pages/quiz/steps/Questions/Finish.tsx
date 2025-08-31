@@ -1,8 +1,8 @@
 import { useSessionKey } from "@/hooks/useSessionKey";
 import { LuCheck } from "react-icons/lu";
 import { useParams } from "react-router";
-import { useSessionQuery } from "../queries";
-import { useFinishSessionMutation } from "../mutations";
+import { useSessionQuery } from "../../queries";
+import { useFinishSessionMutation } from "../../mutations";
 import { useNavigate } from "react-router";
 import { SessionAnswersGrid } from "@/components/SessionAnswersGrid";
 
@@ -18,6 +18,7 @@ export default function Finish() {
 
 	// данные
 	const { data: session } = useSessionQuery(sessionId, sessionKey);
+	const isAnsweredAll = !session.answers.some((answer) => answer.length === 0);
 
 	// мутации
 	const finishSessionMutation = useFinishSessionMutation(sessionId, sessionKey);
@@ -27,7 +28,7 @@ export default function Finish() {
 		<>
 			<SessionAnswersGrid actions={{ onSelect: (index) => navigate(`../${index + 1}`) }} session={session} />
 
-			<div className="mt-4 text-text-faded">Вы ответили не на все вопросы</div>
+			{!isAnsweredAll && <div className="mt-4 text-text-faded">Вы ответили не на все вопросы</div>}
 
 			<button
 				onClick={handleComplete}
