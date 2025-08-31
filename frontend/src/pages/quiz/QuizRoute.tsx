@@ -1,6 +1,7 @@
 import { QuizLayout } from "./QuizLayout";
 import { Route } from "react-router";
 import React, { Suspense } from "react";
+import { Boundary } from "@/components/Boundary";
 
 const Intro = React.lazy(() => import("./steps/Intro"));
 const Questions = React.lazy(() => import("./steps/Questions"));
@@ -13,9 +14,9 @@ export function QuizRoute() {
 			<Route
 				index
 				element={
-					<Suspense fallback={"загрузка теста..."}>
+					<Boundary>
 						<Intro />
-					</Suspense>
+					</Boundary>
 				}
 			/>
 
@@ -23,27 +24,27 @@ export function QuizRoute() {
 				<Route
 					index
 					element={
-						<Suspense fallback={"загрузка результатов..."}>
+						<Boundary>
 							<Result />
-						</Suspense>
+						</Boundary>
 					}
 				/>
 
 				<Route
 					path="finish"
 					element={
-						<Suspense fallback={"загрузка результатов..."}>
+						<Boundary>
 							<Finish />
-						</Suspense>
+						</Boundary>
 					}
 				/>
 
 				<Route
 					path=":questionIndex"
 					element={
-						<Suspense fallback={"загрузка вопросов..."}>
+						<Boundary>
 							<Questions />
-						</Suspense>
+						</Boundary>
 					}
 				/>
 			</Route>

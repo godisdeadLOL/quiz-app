@@ -37,14 +37,14 @@ export default function Questions() {
 
 	return (
 		<>
-			<div className="flex gap-8 items-center mb-8">
+			<div className="flex gap-4 items-center mb-8">
 				{/* Навигация по вопросам */}
 				<IconButton disabled={questionIndex === 0} onClick={handlePrev}>
 					<LuArrowLeft />
 				</IconButton>
 
-				<div className="text-text-accent">
-					{questionIndex + 1} / {quiz.questions.length}
+				<div>
+					<span className="text-green-500 text-2xl">0{questionIndex + 1}</span>/<span>0{quiz.questions.length}</span>
 				</div>
 
 				<IconButton onClick={handleNext}>

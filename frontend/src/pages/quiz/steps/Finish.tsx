@@ -25,7 +25,7 @@ export default function Finish() {
 
 	return (
 		<>
-			<SessionAnswersGrid actions={{ onSelect: (index) => navigate(`${index + 1}`) }} session={session} />
+			<SessionAnswersGrid actions={{ onSelect: (index) => navigate(`../${index + 1}`) }} session={session} />
 
 			<button
 				onClick={handleComplete}

@@ -35,7 +35,7 @@ body {
 	@apply opacity-[8%];
 }
 .button:active::after {
-	@apply opacity-[16%];
+	@apply opacity-[20%];
 }
 
 .button:disabled::after {
