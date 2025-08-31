@@ -12,16 +12,18 @@ const Result = React.lazy(() => import("./steps/Result"));
 export function QuizRoute() {
 	return (
 		<Route path=":quizId" element={<QuizLayout/>}>
-				<Route index element={<Boundary><Intro/></Boundary>}/>
+			<Route element={<Boundary><Outlet/></Boundary>}>
+				<Route index element={<Intro/>}/>
 
 				<Route path=":sessionId">
-					<Route index element={<Boundary><Result/></Boundary>}/>
+					<Route index element={<Result/>}/>
 
-					<Route element={<Boundary><QuestionsLayout/></Boundary>}>
+					<Route element={<QuestionsLayout/>}>
 						<Route path="finish" element={<Finish/>}/>
 						<Route path=":questionIndex" element={<Questions/>}/>
 					</Route>
 				</Route>
+			</Route>
 		</Route>
 	);
 }

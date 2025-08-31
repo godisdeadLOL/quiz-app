@@ -5,7 +5,7 @@ client.setConfig({
 });
 
 client.interceptors.error.use((error) => {
-	throw new Error(error.detail)
-})
+	throw new Error((error as any).detail);
+});
 
 export * from "../../generated/api/sdk.gen.ts";
