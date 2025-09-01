@@ -1,26 +1,16 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
-const changeStorageEvent = "app_changeStorage";
-const prefix = "quiz-app";
+function getStorageValue<T>(key: string, defaultValue: T) {
+	return window.localStorage.getItem(key) ?? JSON.stringify(defaultValue);
+}
 
-const getStorageValue = <T>(key: string, defaultValue: T) => {
-	const valueRaw = localStorage.getItem(key);
-	if (valueRaw === null) return defaultValue;
-
-	try {
-		return JSON.parse(valueRaw);
-	} catch {
-		return defaultValue;
-	}
-};
-
+const changeStorageEvent = "app-storage";
 export function useLocalStorage<T>(key: string, defaultValue: T) {
-	const prefixedKey = key;
+	const [valueRaw, setValueRaw] = useState(() => getStorageValue(key, defaultValue));
 
-	const [value, setValue] = useState<T>(() => getStorageValue(prefixedKey, defaultValue));
 	useEffect(() => {
 		const handleChangeStorage = () => {
-			setValue(getStorageValue(prefixedKey, defaultValue));
+			setValueRaw(getStorageValue(key, defaultValue));
 		};
 
 		window.addEventListener(changeStorageEvent, handleChangeStorage);
@@ -31,17 +21,20 @@ export function useLocalStorage<T>(key: string, defaultValue: T) {
 		};
 	}, []);
 
-	const handleChangeValue = (next: ((prev: T) => T) | T) => {
+	const value = useMemo(() => {
+		try {
+			return JSON.parse(valueRaw) as T;
+		} catch {
+			return defaultValue;
+		}
+	}, [valueRaw]);
+
+	const setValue = (next: ((prev: T) => T) | T) => {
 		if (typeof next === "function") next = (next as (prev: T) => T)(value);
+		localStorage.setItem(key, JSON.stringify(next));
 
-		const currentValue = localStorage.getItem(prefixedKey) ?? JSON.stringify(defaultValue);
-		const nextValue = JSON.stringify(next);
-
-		if (currentValue === nextValue) return;
-
-		localStorage.setItem(prefixedKey, nextValue);
 		window.dispatchEvent(new Event(changeStorageEvent));
 	};
 
-	return [value, handleChangeValue] as const;
+	return [value, setValue] as const;
 }
