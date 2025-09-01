@@ -1,8 +1,10 @@
+import { LuArrowRight } from "react-icons/lu";
+
+import { useCreateSessionMutation } from "../api/mutations";
+import { useQuizPreviewQuery, useSessionsPreviewQuery } from "../api/queries";
+
 import { SessionDisplay } from "@/components/SessionDisplay";
 import { useSessions } from "@/hooks/useSessions";
-import { useCreateSessionMutation } from "@/pages/quiz/api/mutations";
-import { useQuizPreviewQuery, useSessionsPreviewQuery } from "@/pages/quiz/api/queries";
-import { LuArrowRight } from "react-icons/lu";
 import { useNavigate, useParams } from "react-router";
 
 export default function Intro() {
@@ -13,16 +15,8 @@ export default function Intro() {
 	const { mutateAsync, isPending } = useCreateSessionMutation(quizId);
 
 	const navigate = useNavigate();
-	const handleContinue = async () => {
-		const session = await mutateAsync();
-		addSession(session.id, session.key);
 
-		navigate(`${session.id}/1`);
-	};
-
-	const { sessions, addSession, removeSession } = useSessions(quizId);
-	const sessionIds = sessions ? Object.keys(sessions) : [];
-
+	const { sessionIds, addSession, removeSession } = useSessions(quizId);
 	const { data: sessionsPreview } = useSessionsPreviewQuery(sessionIds);
 
 	return (
@@ -37,6 +31,7 @@ export default function Intro() {
 					<div className="flex flex-col gap-2 mt-2 -mx-2">
 						{sessionsPreview.map((session) => (
 							<SessionDisplay
+								data-testid={`session-display__${session.id}`}
 								key={session.id}
 								session={session}
 								actions={{
@@ -50,8 +45,9 @@ export default function Intro() {
 			)}
 
 			<button
+				data-testid="start-new-session"
 				disabled={isPending}
-				onClick={handleContinue}
+				onClick={handleStart}
 				className="button text-white bg-green-500 px-4 py-2 rounded-md flex items-center justify-center gap-4 mt-8 w-full"
 			>
 				Начать <LuArrowRight />
@@ -62,8 +58,15 @@ export default function Intro() {
 	function handleSessionSelect(sessionId: string) {
 		const session = sessionsPreview.find((session) => session.id === sessionId)!;
 
-		if (session.is_expired) navigate(`${sessionId}`);
+		if (session.is_finished) navigate(`${sessionId}`);
 		else navigate(`${sessionId}/1`);
+	}
+
+	function handleStart() {
+		mutateAsync().then((session) => {
+			addSession(session.id, session.key);
+			navigate(`${session.id}/1`);
+		});
 	}
 
 	function handleSessionDelete(sessionId: string) {

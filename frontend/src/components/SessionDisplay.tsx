@@ -1,5 +1,7 @@
 import { LuArrowRight, LuClock, LuDot, LuTrash } from "react-icons/lu";
 import type { QuizSessionPreview } from "@/api/types";
+import type { ComponentProps } from "react";
+import classNames from "classnames";
 
 type SessionDisplayProps = {
 	session: QuizSessionPreview;
@@ -8,16 +10,16 @@ type SessionDisplayProps = {
 		onDelete?: (sessionId: string) => void;
 		onSelect?: (sessionId: string) => void;
 	};
-};
+} & ComponentProps<"div">;
 
-export function SessionDisplay({ session, actions }: SessionDisplayProps) {
+export function SessionDisplay({ session, actions, className, ...other }: SessionDisplayProps) {
 	const statusMessage = {
 		"in-progress": "в процессе",
 		finished: "завершена",
 	};
 
 	return (
-		<div className="flex gap-4 items-center py-1 px-2 rounded-sm  transition-colors hover:bg-surface-2">
+		<div className={classNames("flex gap-4 items-center py-1 px-2 rounded-sm  transition-colors hover:bg-surface-2", className)} {...other}>
 			<div>
 				<div className="flex gap-1 items-center">
 					<div>#{session.id}</div>
@@ -31,11 +33,11 @@ export function SessionDisplay({ session, actions }: SessionDisplayProps) {
 			</div>
 
 			<div className="ml-auto flex gap-1">
-				<button onClick={() => actions?.onDelete?.(session.id)} className="button flex items-center p-2 rounded-md gap-2">
+				<button data-testid="button-delete" onClick={() => actions?.onDelete?.(session.id)} className="button flex items-center p-2 rounded-md gap-2">
 					<LuTrash />
 				</button>
 
-				<button onClick={() => actions?.onSelect?.(session.id)} className="button flex items-center p-2 rounded-md gap-2">
+				<button data-testid="button-continue" onClick={() => actions?.onSelect?.(session.id)} className="button flex items-center p-2 rounded-md gap-2">
 					<LuArrowRight />
 				</button>
 			</div>

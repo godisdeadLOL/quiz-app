@@ -1,13 +1,14 @@
 import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { useMemo } from "react";
 
-type Sessions = {
+type SessionStorage = {
 	[quizId: string]: {
 		[sessionId: string]: string;
 	};
 };
 
 export function useSessions(quizId: string) {
-	const [sessions, setSessions] = useLocalStorage<Sessions>("sessions", {});
+	const [storage, setSessions] = useLocalStorage<SessionStorage>("sessions", {});
 
 	const addSession = (id: string, key: string) => {
 		setSessions((sessions) => ({ ...sessions, [quizId]: { ...(sessions[quizId] ?? {}), [id]: key } }));
@@ -21,5 +22,7 @@ export function useSessions(quizId: string) {
 		});
 	};
 
-	return { sessions: sessions[quizId], addSession, removeSession };
+	const sessionIds = useMemo(() => (storage[quizId] ? Object.keys(storage[quizId]) : []), [storage]);
+
+	return { sessionIds, sessions: storage[quizId], addSession, removeSession };
 }
