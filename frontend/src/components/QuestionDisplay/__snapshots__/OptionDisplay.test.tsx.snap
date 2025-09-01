@@ -1,0 +1,24 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`test 1`] = `
+<label
+  class="button flex gap-4 px-4 py-2 rounded-lg bg-surface-1"
+  data-testid="option-0"
+>
+  <div
+    class="flex-1"
+  >
+    Вариант 1
+  </div>
+  <label>
+    <input
+      hidden=""
+      type="radio"
+    />
+    <div
+      class="box-content size-[14px] p-1 text-sm border-1 text-white border-border rounded-full"
+      data-checked="false"
+    />
+  </label>
+</label>
+`;

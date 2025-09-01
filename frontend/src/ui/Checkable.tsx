@@ -25,13 +25,10 @@ export function Checkable({ value, onChangeValue, variant = "success", type = "c
 	const typeStyle = types[type];
 
 	return (
-		<label>
+		<label data-testid="checkable" aria-checked={value}>
 			<input hidden checked={value} type={type} onChange={(e) => onChangeValue?.(e.target.checked)} />
 
-			<div
-				data-checked={value}
-				className={classNames(`box-content size-[14px] p-1 text-sm border-1 text-white`, value ? checkedStyle : uncheckedStyle, typeStyle)}
-			>
+			<div className={classNames(`box-content size-[14px] p-1 text-sm border-1 text-white`, value ? checkedStyle : uncheckedStyle, typeStyle)}>
 				{value && (variant === "success" ? <LuCheck /> : <LuX />)}
 			</div>
 		</label>

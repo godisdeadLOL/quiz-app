@@ -15,7 +15,7 @@ const getStorageValue = <T>(key: string, defaultValue: T) => {
 };
 
 export function useLocalStorage<T>(key: string, defaultValue: T) {
-	const prefixedKey = `${prefix}_${key}`;
+	const prefixedKey = key;
 
 	const [value, setValue] = useState<T>(() => getStorageValue(prefixedKey, defaultValue));
 	useEffect(() => {
@@ -34,8 +34,9 @@ export function useLocalStorage<T>(key: string, defaultValue: T) {
 	const handleChangeValue = (next: ((prev: T) => T) | T) => {
 		if (typeof next === "function") next = (next as (prev: T) => T)(value);
 
-		const currentValue = localStorage.getItem(prefixedKey);
+		const currentValue = localStorage.getItem(prefixedKey) ?? JSON.stringify(defaultValue);
 		const nextValue = JSON.stringify(next);
+
 		if (currentValue === nextValue) return;
 
 		localStorage.setItem(prefixedKey, nextValue);
