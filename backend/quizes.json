@@ -3,7 +3,7 @@
     "id": "react",
     "title": "React Викторина",
     "description": "Тест из 5 вопросов для проверки знаний по React-разработке",
-    "duration": 360,
+    "duration": 30,
     "questions": [
       {
         "description": "Что такое React?",

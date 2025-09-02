@@ -10,10 +10,10 @@ import services.quiz as quiz_service
 
 
 async def check_access(db_context: DatabaseContext, session_id: str, session_key: str):
-    (db, _) = db_context
+    (db, session) = db_context
     collection = db.get_collection("sessions")
 
-    return not not await collection.find_one({"id": session_id, "key": session_key})
+    return not not await collection.find_one({"id": session_id, "key": session_key}, session=session)
 
 
 async def create(db_context: DatabaseContext, quiz_id: str):
