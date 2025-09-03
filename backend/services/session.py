@@ -30,7 +30,7 @@ async def create(db_context: DatabaseContext, quiz_id: str):
 
 
 async def get_by_id(db_context: DatabaseContext, session_id: str):
-    quiz_session = await crud.get_by_id(db_context, "sessions", QuizSessionModel, session_id)
+    quiz_session = await crud.get_by_id(db_context, QuizSessionModel, session_id)
     return quiz_session
 
 

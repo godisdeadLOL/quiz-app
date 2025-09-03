@@ -3,7 +3,7 @@ from fastapi import APIRouter, Body, Depends, HTTPException, Path, Query
 from db import DatabaseContext, get_db_context
 from schemas.session import QuizSessionGetManyParams, QuizSessionDetailed, QuizSessionPreview, QuizSessionSecure
 from schemas.shared import QuestionAnswer
-from security import session_key_scheme
+from security.deps import session_key_scheme
 
 import services.session as session_service
 

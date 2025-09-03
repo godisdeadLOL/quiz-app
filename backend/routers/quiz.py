@@ -4,7 +4,7 @@ import crud
 from db import DatabaseContext, get_db_context
 from schemas.quiz import QuizDetailed, QuizModel, QuizPreview
 
-from security import session_key_scheme
+from security.deps import session_key_scheme
 import services.quiz as quiz_service
 
 

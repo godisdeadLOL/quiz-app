@@ -1,12 +1,16 @@
 from fastapi import FastAPI
+from fastapi.responses import JSONResponse
 from fastapi.routing import APIRoute
 from fastapi.middleware.cors import CORSMiddleware
 
+from errors import AppError
 from routers.session import router as session_router
 from routers.quiz import router as quiz_router
+from routers.auth import router as auth_router
 
 import json
 from config import config
+from schemas.quiz import QuizModel
 from utils import to_camel_case
 
 
@@ -26,6 +30,12 @@ app.add_middleware(
 
 app.include_router(session_router, prefix="/sessions", tags=["Session"])
 app.include_router(quiz_router, prefix="/quizes", tags=["Quiz"])
+app.include_router(auth_router, prefix="/auth", tags=["Auth"])
+
+
+@app.exception_handler(AppError)
+def habdle_app_error(_, exc: AppError):
+    return JSONResponse(status_code=exc.body.status, content={"details": exc.body.details})
 
 
 if config.openapi_export_path:
@@ -34,5 +44,3 @@ if config.openapi_export_path:
     openapi_raw = json.dumps(app.openapi())
     with open(config.openapi_export_path, mode="w", encoding="utf-8") as f:
         f.write(openapi_raw)
-
-    print("openapi exported")

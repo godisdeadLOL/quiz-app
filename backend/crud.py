@@ -4,12 +4,9 @@ from pydantic import BaseModel, TypeAdapter
 from db import DatabaseContext
 
 T = TypeVar("T", bound=BaseModel)
-type CollectionName = Literal["sessions"]
-
-
-async def get_by_id(db_context: DatabaseContext, collection_name: CollectionName, Model: Type[T], id: str):
+async def get_by_id(db_context: DatabaseContext, Model: Type[T], id: str):
     (db, session) = db_context
-    collection = db.get_collection(collection_name)
+    collection = db.get_collection(Model.__collection_name__) # type: ignore
 
     entry_raw = await collection.find_one({"id": id}, session=session)
     if not entry_raw:
@@ -20,9 +17,9 @@ async def get_by_id(db_context: DatabaseContext, collection_name: CollectionName
     return entry
 
 
-async def get_many_by_ids(db_context: DatabaseContext, collection_name: CollectionName, Model: Type[T], session_ids: list[str]) -> list[T]:
+async def get_many_by_ids(db_context: DatabaseContext, Model: Type[T], session_ids: list[str]) -> list[T]:
     (db, session) = db_context
-    collection = db.get_collection(collection_name)
+    collection = db.get_collection(Model.__collection_name__) # type: ignore
 
     entries_raw = await collection.find({"id": {"$in": session_ids}}, session=session).to_list()
 

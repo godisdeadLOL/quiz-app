@@ -26,6 +26,8 @@ type SessionStatus = Literal["in-progress", "finished"]
 
 
 class QuizSessionModel(BaseModel):
+    __collection_name__ = "sessions"
+    
     id: str
     key: str
     quiz_id: str
